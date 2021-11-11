@@ -39,12 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'seller.apps.SellerConfig',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+
+    'debug_toolbar'
 ]
 
 AUTH_USER_MODEL = 'seller.Seller'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -71,8 +76,19 @@ TEMPLATES = [
     },
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 WSGI_APPLICATION = 'jiji_clone.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+REST_USE_JWT = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

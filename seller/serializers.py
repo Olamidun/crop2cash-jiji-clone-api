@@ -30,5 +30,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return seller
 
 
+class UserSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ['id', 'first_name', 'last_name', 'email', 'state_of_residence']
+
+
+
 
 

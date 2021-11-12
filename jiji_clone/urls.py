@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
     path('auth/', include('seller.urls')),
-    path('items/', include('items.urls'))
+    path('items/', include('items.urls')),
+    path('buyers/', include('buyers.urls'))
 ]
 
 if settings.DEBUG:

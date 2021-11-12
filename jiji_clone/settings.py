@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Created apps
     'seller.apps.SellerConfig',
     'items.apps.ItemsConfig',
+    'buyers.apps.BuyersConfig',
 
     # Thirdparty apps
     'rest_framework',

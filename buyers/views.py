@@ -36,13 +36,13 @@ class CreateBuyerForItemAPIView(APIView):
                 serializer.save(item=item)
                 context["message"] = "Buyer has been added"
                 context["data"] = serializer.data
-                return Response(context, status=status.HTTP_200_OK)
+                return Response(context, status=status.HTTP_201_CREATED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Items.DoesNotExist:
             return Response({"message": "This item does not exist for this user"}, serializer.data)
 
-class BuyerForAnItemAPIView(APIView):
+class ChooseBuyerForAnItemAPIView(APIView):
     permission_classes = (IsAuthenticated, )
     @swagger_auto_schema(operation_description="Choose a buyer for an item")
     def patch(self, request, item_id, buyer_id):

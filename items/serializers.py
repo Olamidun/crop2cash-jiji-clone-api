@@ -44,7 +44,7 @@ class ItemDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Items
 
-        fields = ['id', 'name', 'seller', 'price', 'image', 'description', 'buyers', 'has_been_sold']
+        fields = ['id', 'name', 'seller', 'price', 'image', 'description', 'buyers', 'has_been_sold', 'sold_to']
 
         extra_kwargs = {
             "id":{

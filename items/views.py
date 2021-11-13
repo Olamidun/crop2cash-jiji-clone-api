@@ -55,5 +55,5 @@ class ItemDetailAPIView(APIView):
             Items.objects.get(id=id, seller=self.request.user).delete()
             return Response({'message': 'Item has been deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Items.DoesNotExist:
-            return Response({'message': 'This item does not exist for this user'}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'message': 'This item does not exist for this user'}, status=status.HTTP_404_NOT_FOUND)
 

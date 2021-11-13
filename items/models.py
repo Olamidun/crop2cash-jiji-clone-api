@@ -15,6 +15,7 @@ class Items(models.Model):
     image = models.ImageField(upload_to='item_image')
     date_added = models.DateTimeField(auto_now_add=True)
     has_been_sold = models.BooleanField(default=False)
+    sold_to = models.ForeignKey('buyers.Buyers', on_delete=models.SET_NULL, null=True, blank=True)
     
 
     def __str__(self):

@@ -4,6 +4,9 @@ from . import views
 app_name = 'buyers'
 
 urlpatterns = [
-    path('', views.CreateInterestedBuyerAPIView.as_view()),
-    path('buyer_count', views.buyer_count, name='buyer-count')
+    path('<int:id>/create_buyer/', views.CreateInterestedBuyerAPIView.as_view()),
+    path('<int:id>/create_buyer', views.CreateBuyerForItemAPIView.as_view()),
+    path('<int:item_id>/<int:buyer_id>/choose_buyer', views.BuyerForAnItemAPIView.as_view()),
 ]
+
+# 1 and 3

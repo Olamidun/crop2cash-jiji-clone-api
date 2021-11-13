@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -7,6 +8,7 @@ from .serializers import RegistrationSerializer, CustomTokenObtainPairSerializer
 
 # Create your views here.
 
+@swagger_auto_schema(methods=['post'], request_body= RegistrationSerializer)
 @api_view(['POST'])
 def registration(request):
     serializer = RegistrationSerializer(data=request.data)

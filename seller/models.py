@@ -19,6 +19,7 @@ class SellerManager(BaseUserManager):
         user = self.model(
             first_name = first_name,
             last_name = last_name,
+            state_of_residence = state_of_residence,
             email = self.normalize_email(email)  
         )
 

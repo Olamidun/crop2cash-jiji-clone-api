@@ -12,4 +12,4 @@ class Buyers(models.Model):
 
 
     def __str__(self):
-        return f'Buyer for {self.item.name}'
+        return f'Buyer {self.name}'

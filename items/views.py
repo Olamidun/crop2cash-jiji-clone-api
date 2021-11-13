@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework import generics, status
+from buyers.serializers import CreateInterestedBuyerSerializer
 
 from items.models import Items
 
@@ -17,8 +18,7 @@ class CreateItemAPIView(generics.CreateAPIView):
     parser_classes = (MultiPartParser, )
     serializer_class = CreateItemSerializer
 
-    @swagger_auto_schema(operation_description='Upload file...',)
-    @action(detail=True, methods=['post'],)
+    @swagger_auto_schema(request_body=CreateInterestedBuyerSerializer, operation_description='Upload file...',)
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user)
 

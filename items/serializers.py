@@ -8,7 +8,7 @@ class CreateItemSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Items
-        fields = ['id', 'name', 'seller', 'price', 'image', 'description', 'has_been_sold']
+        fields = ['id', 'name', 'seller', 'price', 'image', 'description']
 
         extra_kwargs = {
             'id': {
@@ -20,14 +20,11 @@ class CreateItemSerializer(serializers.ModelSerializer):
 class ItemListSerializer(serializers.ModelSerializer):
     seller = UserSerializers()
     number_of_interested_buyers = serializers.SerializerMethodField('get_number_of_buyers')
-    # buyers = ListBuyersSerializers(many=True, read_only=True)
 
     class Meta:
         model = Items
 
         fields = ['id', 'name', 'seller', 'price', 'image', 'description', 'number_of_interested_buyers', 'has_been_sold']
-        # fields = ['buyers', 'seller']
-        # depth = 1
 
         extra_kwargs = {
             "id":{

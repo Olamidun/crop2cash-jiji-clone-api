@@ -13,15 +13,6 @@ from items.models import Items
 # Create your views here.
 
 
-# class CreateInterestedBuyerAPIView(generics.CreateAPIView):
-#     serializer_class = CreateInterestedBuyerSerializer
-
-#     def perform_create(self, serializer):
-#         item = Items.objects.get(id=self.kwargs['id'])
-#         print(item)
-#         serializer.save(item=item)
-
-
 class CreateBuyerForItemAPIView(APIView):
     @swagger_auto_schema(request_body=CreateInterestedBuyerSerializer, responses={
         '200': 'Ok Request',

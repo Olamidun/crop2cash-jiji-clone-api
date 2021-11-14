@@ -17,7 +17,7 @@ class ListBuyersSerializers(serializers.ModelSerializer):
 
 class CreateInterestedBuyerSerializer(serializers.Serializer):
     # item = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
-    item_id = serializers.IntegerField()
+    item_id = serializers.IntegerField(write_only=True)
     name = serializers.CharField()
     email = serializers.EmailField()
     location = serializers.CharField()
@@ -30,9 +30,9 @@ class CreateInterestedBuyerSerializer(serializers.Serializer):
         if buyer.exists():
             print('blahblahblah!!!!')
             buyer.first().item.add(item_data)
-            return buyer.first()
+            return validated_data
         else:
             buyer = Buyers.objects.create(**validated_data)
             print(buyer)
             buyer.item.add(item_data)
-            return buyer
+            return validated_data

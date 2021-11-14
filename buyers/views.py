@@ -14,7 +14,6 @@ from .serializers import CreateInterestedBuyerSerializer
 #     serializer_class = CreateInterestedBuyerSerializer
 
 class CreateBuyerForItemAPIView(APIView):
-
     # This decorator ensures the request body is displayed on swagger
     @swagger_auto_schema(request_body=CreateInterestedBuyerSerializer, responses={
         '200': 'Ok Request',
@@ -24,9 +23,7 @@ class CreateBuyerForItemAPIView(APIView):
         context = {}
         print(request.data)
         # Try and get an item with the given id from database
-        try:
-            # item = Items.objects.get(id=item_id)
-            
+        try: 
             serializer = CreateInterestedBuyerSerializer(data = request.data)
             if serializer.is_valid():
                 serializer.save()

@@ -1,6 +1,7 @@
 from .models import Buyers
 from items.models import Items
 from rest_framework import status
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
@@ -8,6 +9,9 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import CreateInterestedBuyerSerializer
 
 # Create your views here.
+
+# class CreateBuyerAPIView(generics.CreateAPIView):
+#     serializer_class = CreateInterestedBuyerSerializer
 
 class CreateBuyerForItemAPIView(APIView):
 
@@ -18,12 +22,12 @@ class CreateBuyerForItemAPIView(APIView):
     }, operation_description="Create interested buyer for an item")
     def post(self, request):
         context = {}
-
+        print(request.data)
         # Try and get an item with the given id from database
         try:
             # item = Items.objects.get(id=item_id)
-            print(type(request.data))
-            serializer = CreateInterestedBuyerSerializer(data = request.data)  
+            
+            serializer = CreateInterestedBuyerSerializer(data = request.data)
             if serializer.is_valid():
                 serializer.save()
                 context["message"] = "Buyer has been added"

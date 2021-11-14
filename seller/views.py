@@ -1,13 +1,13 @@
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework_simplejwt.serializers import TokenBlacklistSerializer
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import RegistrationSerializer, CustomTokenObtainPairSerializer
 
 # Create your views here.
 
+# This decorator includes request body in swagger
 @swagger_auto_schema(methods=['post'], request_body= RegistrationSerializer)
 @api_view(['POST'])
 def registration(request):

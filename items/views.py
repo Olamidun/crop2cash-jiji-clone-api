@@ -1,38 +1,30 @@
-from drf_yasg.utils import swagger_auto_schema
+from .models import Items
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser
 from rest_framework import generics, status
+from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.permissions import IsAuthenticated
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from buyers.serializers import CreateInterestedBuyerSerializer
-
-from items.models import Items
-from jiji_clone.settings import CACHE_TTL
-
 from .serializers import CreateItemSerializer, ItemDetailSerializer, ItemListSerializer
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
-# Create your views here.
 
 class CreateItemAPIView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated, )
-    parser_classes = (MultiPartParser, )
     serializer_class = CreateItemSerializer
 
+    # # This decorator ensures the request body contains image upload option on swagger
     @swagger_auto_schema(request_body=CreateInterestedBuyerSerializer, operation_description='Upload file...',)
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user)
 
 
+# Lists all the items in the database that hasn't been sold
 class ListAllItemsAPIView(generics.ListAPIView):
     serializer_class = ItemListSerializer
-
     def get_queryset(self):
 
         '''
@@ -47,6 +39,7 @@ class ListAllItemsAPIView(generics.ListAPIView):
             return items
 
 
+# Lists all the Items a seller has created
 class LisAllItemsForSellerAPIView(generics.ListAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = ItemListSerializer
@@ -57,13 +50,18 @@ class LisAllItemsForSellerAPIView(generics.ListAPIView):
 
 class ItemDetailAPIView(APIView):
     permission_classes = (IsAuthenticated, )
+    # Retrieves a single item
     def get(self, request, id):
+
+        # Tries to get the item with the given id and logged in user from the db
         try:
             item = Items.objects.get(id=id, seller=self.request.user)
             serializer = ItemDetailSerializer(item)
             return Response(serializer.data)
+
+        # Returns an appropriate error response if the item cannot be found
         except Items.DoesNotExist:
-            return Response({'error': "This item does not exist for this user"})
+            return Response({'error': "This item does not exist for this user"}, status=status.HTTP_404_NOT_FOUND)
 
 
     def delete(self, request, id):

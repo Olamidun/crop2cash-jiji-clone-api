@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 import dotenv
-from datetime import timedelta
 from pathlib import Path
+from datetime import timedelta
 
 dotenv.load_dotenv()
 
@@ -47,13 +47,14 @@ INSTALLED_APPS = [
     'items.apps.ItemsConfig',
     'buyers.apps.BuyersConfig',
 
-    # Thirdparty apps
+    # Third party libraries
     'rest_framework',
     'debug_toolbar',
     'drf_yasg'
 ]
 
 SWAGGER_SETTINGS = {
+    # To change the default authorization method from username and password to token.
    'SECURITY_DEFINITIONS': {
         'Bearer': {
             'type': 'apiKey',
@@ -100,6 +101,7 @@ INTERNAL_IPS = [
 
 WSGI_APPLICATION = 'jiji_clone.wsgi.application'
 
+# Authentication configuration to make Django use simplejwt's JWT authentication
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -109,11 +111,11 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
+    # Overriding the access token lifetime from the default 5 minutes to 10
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
 
-REST_USE_JWT = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -125,6 +127,7 @@ DATABASES = {
     }
 }
 
+# Cache configuration
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -136,6 +139,7 @@ CACHES = {
     }
 }
 
+# How long until a cache becomes invalid; it has been set to 5 minutes
 CACHE_TTL = 60 * 5
 
 # Password validation

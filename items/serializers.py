@@ -1,15 +1,16 @@
-from rest_framework import serializers
 from .models import Items
-from seller.serializers import UserSerializers
+from rest_framework import serializers
+from seller.serializers import SellerSerializers
 from buyers.serializers import ListBuyersSerializers
+
 
 class CreateItemSerializer(serializers.ModelSerializer):
     seller = serializers.PrimaryKeyRelatedField(read_only=True)
-    
     class Meta:
         model = Items
         fields = ['id', 'name', 'seller', 'price', 'image', 'description']
 
+        # configuration to ensure id is not required as part of the request
         extra_kwargs = {
             'id': {
                 'read_only': True
@@ -18,7 +19,13 @@ class CreateItemSerializer(serializers.ModelSerializer):
 
 
 class ItemListSerializer(serializers.ModelSerializer):
-    seller = UserSerializers()
+
+    '''
+
+    Since we want the sellers' information and number of interested buyers as part of response, I am nesting user information into the response returned by the serializer by using UserSerializers(). Same with number of interested buyers
+    
+    '''
+    seller = SellerSerializers()
     number_of_interested_buyers = serializers.SerializerMethodField('get_number_of_buyers')
 
     class Meta:
@@ -32,13 +39,20 @@ class ItemListSerializer(serializers.ModelSerializer):
             }
         }
 
+
     def get_number_of_buyers(self, obj):
         buyer_count = obj.number_of_buyers()
         return buyer_count
 
 
 class ItemDetailSerializer(serializers.ModelSerializer):
-    seller = UserSerializers()
+
+    '''
+
+    Apart from sellers' information, I also need the list of all the buyers interested in an item to be part of the response, hence the reason for making use of ListBuyersSerializers
+
+    '''
+    seller = SellerSerializers()
     buyers = ListBuyersSerializers(many=True, read_only=True)
 
     class Meta:

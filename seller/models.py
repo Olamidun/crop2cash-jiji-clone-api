@@ -1,9 +1,9 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-from django.conf import settings
-
 # Create your models here.
+
 
 class SellerManager(BaseUserManager):
     def create_user(self, first_name, last_name, email, state_of_residence, password=None):

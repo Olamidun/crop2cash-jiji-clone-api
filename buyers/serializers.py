@@ -7,13 +7,12 @@ class ListBuyersSerializers(serializers.ModelSerializer):
         model = Buyers
         exclude = ['item']
 
-        #  read_only_field = ['id']
-
         extra_kwargs = {
             "id":{
                 "read_only": True
             }
         }
+
 
 class CreateInterestedBuyerSerializer(serializers.ModelSerializer):
     item = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -21,8 +20,8 @@ class CreateInterestedBuyerSerializer(serializers.ModelSerializer):
         model = Buyers
         fields = '__all__'
 
-        # extra_kwargs = {
-        #     "id":{
-        #         "read_only": True
-        #     }
-        # }
+        extra_kwargs = {
+            "id":{
+                "read_only": True
+            }
+        }

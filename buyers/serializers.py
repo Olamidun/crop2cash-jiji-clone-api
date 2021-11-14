@@ -15,13 +15,16 @@ class ListBuyersSerializers(serializers.ModelSerializer):
 
 
 class CreateInterestedBuyerSerializer(serializers.ModelSerializer):
-    item = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Buyers
         fields = '__all__'
 
-        extra_kwargs = {
-            "id":{
-                "read_only": True
-            }
-        }
+    # def create(self, validated_data):
+    #     buyer = Buyers.objects.create(**validated_data)
+    #     return buyer
+
+        # extra_kwargs = {
+        #     "id":{
+        #         "read_only": True
+        #     }
+        # }

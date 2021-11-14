@@ -30,13 +30,13 @@ class ListAllItemsAPIView(generics.ListAPIView):
         '''
         Checks if queryset of items has been cached before, if it has, the list is pulled from cache and returns it as response, if not, it gets the queryset from db, saves it to cache and then returns it as response
         '''
-        if 'items' in cache:
-            items = cache.get('items')
-            return items
-        else:
-            items = Items.objects.filter(has_been_sold=False).order_by('-date_added')
-            cache.set('items', items, timeout=CACHE_TTL)
-            return items
+        # if 'items' in cache:
+        #     items = cache.get('items')
+        #     return items
+        # else:
+        items = Items.objects.filter(has_been_sold=False).order_by('-date_added')
+            # cache.set('items', items, timeout=CACHE_TTL)
+        return items
 
 
 # Lists all the Items a seller has created

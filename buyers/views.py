@@ -16,15 +16,16 @@ class CreateBuyerForItemAPIView(APIView):
         '200': 'Ok Request',
         '400': "Bad request"
     }, operation_description="Create interested buyer for an item")
-    def post(self, request, item_id):
+    def post(self, request):
         context = {}
 
         # Try and get an item with the given id from database
         try:
-            item = Items.objects.get(id=item_id)
+            # item = Items.objects.get(id=item_id)
+            print(type(request.data))
             serializer = CreateInterestedBuyerSerializer(data = request.data)  
             if serializer.is_valid():
-                serializer.save(item=item)
+                serializer.save()
                 context["message"] = "Buyer has been added"
                 context["data"] = serializer.data
                 return Response(context, status=status.HTTP_201_CREATED)

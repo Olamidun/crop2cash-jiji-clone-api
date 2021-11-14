@@ -29,5 +29,5 @@ class Items(models.Model):
 
 
     def number_of_buyers(self):
-        buyer_count = Items.objects.filter(pk=self.pk).aggregate(Count('buyers'))['buyers__count']
+        buyer_count = Items.objects.filter(pk=self.pk).aggregate(Count('items'))['items__count']
         return buyer_count

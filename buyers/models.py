@@ -7,7 +7,7 @@ class Buyers(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField()
     location = models.CharField(max_length=200)
-    item = models.ForeignKey(Items, related_name='buyers', on_delete=models.CASCADE)
+    item = models.ManyToManyField(Items, related_name='buyers')
 
     def __str__(self):
         return f'Buyer {self.name}'

@@ -76,6 +76,15 @@ class ItemDetailAPIView(APIView):
             return Response({'error': 'This item does not exist for this user'}, status=status.HTTP_404_NOT_FOUND)
 
 
+'''
+
+This endpoint should be called when getting the list of items a buyer has shown interest in. 
+A query parameter "?email=<email_address>" should be appended to it.
+
+Since buyers are not going to be authenticated, when a buyer shows interest in an item for the first time, their email can be saved into local storage / cookies on the frontend for a period of time so that when next they visit the website, the frontend checks if the email is still in local storage / cookies, and then uses it as query parameter for this endpoint to return list of items the buyer has shown interest in. If it is not, the frontend can ask for their email (Ensure to inform the buyer to use the email they used on their first visit).
+If a buyer on their subsequent visits shows interest in an item before attempting to see the list of items they have shown interest in, then we can use the email they provided instead of asking for it again ....
+
+'''
 class ItemsForABuyer(APIView):
     param = openapi.Parameter('email', openapi.IN_QUERY, description="Email parameter to get a buyer's list of interested items", type=openapi.TYPE_STRING)
     @swagger_auto_schema(manual_parameters=[param])

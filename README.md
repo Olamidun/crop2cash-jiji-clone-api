@@ -17,9 +17,9 @@ Technologies used:
 - on your browser, open up
   - `http://localhost:8000/swagger/#` to view the endpoints and their documentation
   
-- What I have been able to acheive.
+# What I have been able to acheive.
 
-I was able to build out the specification required for this assignment which include the following:
+1. I was able to build out the specification required for this assignment which include the following:
   - Seller App
   
   This app enables seller to create account and login into that account.
@@ -43,5 +43,5 @@ I was able to build out the specification required for this assignment which inc
 
       Buyers can also see the list of items they have shown interest in.
       
-      
-The API is hosted on Heroku
+2. Cache the endpoint that lists all the unsold items in the database
+3. The API is hosted on Heroku

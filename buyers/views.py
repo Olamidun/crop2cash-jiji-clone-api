@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAuthenticated
 from .serializers import CreateInterestedBuyerSerializer
-
 # Create your views here.
 
 # class CreateBuyerAPIView(generics.CreateAPIView):

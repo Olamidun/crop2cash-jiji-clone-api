@@ -1,4 +1,5 @@
 from .models import Items
+from buyers.models import Buyers
 from rest_framework import serializers
 from seller.serializers import SellerSerializers
 from buyers.serializers import ListBuyersSerializers
@@ -43,6 +44,14 @@ class ItemListSerializer(serializers.ModelSerializer):
     def get_number_of_buyers(self, obj):
         buyer_count = obj.number_of_buyers()
         return buyer_count
+
+
+class ListAllItemsForABuyerSerializer(serializers.ModelSerializer):
+    item = ItemListSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Buyers
+        fields = '__all__'
 
 
 class ItemDetailSerializer(serializers.ModelSerializer):

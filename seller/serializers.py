@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer as JwtTokenObtainPairSerializer
@@ -24,8 +25,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
             }
         }
 
-    # To do:
-    #  - validate password to ensure its min_length doesn't exceed 10 and the max_lenght doesn't exceed 15
 
     def create(self, validated_data):
         seller = UserModel.objects.create_user(**validated_data)

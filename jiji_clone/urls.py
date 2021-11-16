@@ -29,7 +29,6 @@ schema_view = get_schema_view(
       title="C2C Jiji Clone API",
       default_version='v1',
       description="Documentation for C2C Jiji clone API",
-      terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="kolapoolamidun@gmail.com"),
       license=openapi.License(name="Test License"),
    ),

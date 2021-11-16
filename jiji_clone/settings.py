@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'https://c2c-jiji-clone.herokuapp.com/']
+ALLOWED_HOSTS = ['localhost', 'c2c-jiji-clone.herokuapp.com']
 
 
 # Application definition

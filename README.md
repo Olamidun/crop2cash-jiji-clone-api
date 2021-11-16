@@ -1,6 +1,6 @@
 # crop2cash-jiji-clone-api Project Report
 
-You can view the documentation [here](http://localhost:8000/swagger/#)
+You can view the documentation [here](https://c2c-jiji-clone.herokuapp.com/swagger/)
 
 Technologies used:
 - Django and Djangorestframework

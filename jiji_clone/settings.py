@@ -101,7 +101,7 @@ INTERNAL_IPS = [
 
 WSGI_APPLICATION = 'jiji_clone.wsgi.application'
 
-# Authentication configuration to make Django use simplejwt's JWT authentication
+# Configuration to make Django rest framwork use simplejwt's JWT authentication
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -112,7 +112,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     # Overriding the access token lifetime from the default 5 minutes to 10
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
 
@@ -139,8 +139,8 @@ CACHES = {
     }
 }
 
-# How long until a cache becomes invalid; it has been set to 5 minutes
-CACHE_TTL = 60 * 5
+# How long until a cache becomes invalid; it has been set to 15 minutes
+CACHE_TTL = 60 * 15
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

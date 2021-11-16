@@ -1,4 +1,3 @@
-from rest_framework import decorators
 from .models import Items
 from drf_yasg import openapi
 from buyers.models import Buyers
@@ -7,15 +6,14 @@ from django.core.cache import cache
 from rest_framework.views import APIView
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.decorators import action, authentication_classes, permission_classes
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.parsers import MultiPartParser
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ListAllItemsForABuyerSerializer
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from buyers.serializers import CreateInterestedBuyerSerializer
-from .serializers import CreateItemSerializer, ItemDetailSerializer, ItemListSerializer
+from .serializers import CreateItemSerializer, ItemDetailSerializer, ItemListSerializer, ListAllItemsForABuyerSerializer
+
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
@@ -40,6 +38,7 @@ class CreateItemAPIView(APIView):
 
 # Lists all the items in the database that hasn't been sold
 class ListAllItemsAPIView(generics.ListAPIView):
+    permission_classes = ()
     serializer_class = ItemListSerializer
 
     def get_queryset(self):
@@ -58,9 +57,12 @@ class ListAllItemsAPIView(generics.ListAPIView):
 
 # Lists all the Items a seller has created
 @method_decorator(name='list', decorator=swagger_auto_schema(
-    description="Endpoint for sellers to view all items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'"
+    description='''Endpoint for sellers to view all items they have put up for sale. Requires token authentication in this format: "Bearer <access_token returned by the login endpoint>"'''
 ))
 class LisAllItemsForSellerAPIView(generics.ListAPIView):
+    """
+    Endpoint for sellers to view all items they have put up for sale. Requires token authentication in this format: "Bearer <access_token returned by the login endpoint>
+    """
     permission_classes = (IsAuthenticated, )
     serializer_class = ItemListSerializer
 
@@ -71,7 +73,7 @@ class LisAllItemsForSellerAPIView(generics.ListAPIView):
 class ItemDetailAPIView(APIView):
     permission_classes = (IsAuthenticated, )
     # Retrieves a single item
-    @swagger_auto_schema(operation_description="Endpoint for sellers to view a single item out of the items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'", security=[])
+    @swagger_auto_schema(operation_description="Endpoint for sellers to view a single item out of the items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'")
     def get(self, request, id):
 
         # Tries to get the item with the given id and logged in user from the db
@@ -104,7 +106,8 @@ If a buyer on their subsequent visits shows interest in an item before attemptin
 
 '''
 class ItemsForABuyer(APIView):
-    param = openapi.Parameter('email', openapi.IN_QUERY, description="Email parameter to get a buyer's list of interested items", type=openapi.TYPE_STRING)
+    authentication_classes = ()
+    param = openapi.Parameter('email', openapi.IN_QUERY, description="Email parameter to get a buyer's list of interested items, requires no authentication", type=openapi.TYPE_STRING)
     @swagger_auto_schema(manual_parameters=[param])
     # Retrieves a single item
     def get(self, request):

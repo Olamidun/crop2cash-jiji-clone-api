@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import dotenv
 import django_heroku
-import dj_database_url
+# import dj_database_url
 from pathlib import Path
 from datetime import timedelta
 
@@ -205,10 +205,7 @@ AWS_S3_ADDRESSING_STYLE = "virtual"
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-DATABASE_URL = os.environ.get('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 

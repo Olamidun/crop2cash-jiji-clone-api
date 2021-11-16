@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import debug_toolbar
+
 from drf_yasg import openapi
 from django.conf import settings
 from django.contrib import admin
@@ -41,7 +41,6 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('__debug__/', include(debug_toolbar.urls)),
     path('sellers/', include('seller.urls')),
     path('items/', include('items.urls')),
     path('buyers/', include('buyers.urls'))

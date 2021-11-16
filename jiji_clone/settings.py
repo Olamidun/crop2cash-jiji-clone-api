@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 import dotenv
+import dj_database_url
 from pathlib import Path
 from datetime import timedelta
 
@@ -49,7 +50,6 @@ INSTALLED_APPS = [
 
     # Third party libraries
     'rest_framework',
-    'debug_toolbar',
     'drf_yasg'
 ]
 
@@ -95,9 +95,8 @@ TEMPLATES = [
     },
 ]
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 WSGI_APPLICATION = 'jiji_clone.wsgi.application'
 
@@ -201,5 +200,10 @@ AWS_DEFAULT_ACL = None
 AWS_S3_VERIFY = True
 AWS_S3_ADDRESSING_STYLE = "virtual"
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
 
 

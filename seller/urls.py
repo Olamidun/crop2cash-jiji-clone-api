@@ -13,5 +13,5 @@ urlpatterns = [
     path('login', views.LoginWithEmailView.as_view(), name='login'),
     
     # Endpoint for getting a new access token once it expires. Makes use of the refresh token to achieve this 
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
 ]

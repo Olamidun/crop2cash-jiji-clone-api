@@ -39,7 +39,7 @@ class CreateBuyerForItemAPIView(APIView):
 
 class ChooseBuyerForAnItemAPIView(APIView):
     permission_classes = (IsAuthenticated, )
-    @swagger_auto_schema(operation_description="Choose a buyer for an item")
+    @swagger_auto_schema(operation_description="Endpoint for sellers to choose a buyer out of the interested buyers. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'", security=['Bearer'])
     def patch(self, request, item_id, buyer_id):
 
         '''

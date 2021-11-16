@@ -15,6 +15,7 @@ class ListBuyersSerializers(serializers.ModelSerializer):
         }
 
 
+# Serializer that gets used when a seller chooses a buyer out of the interested buyers.
 class CreateInterestedBuyerSerializer(serializers.Serializer):
     item_id = serializers.IntegerField(write_only=True)
     name = serializers.CharField()

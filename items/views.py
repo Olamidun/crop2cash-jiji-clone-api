@@ -1,3 +1,4 @@
+from rest_framework import decorators
 from .models import Items
 from drf_yasg import openapi
 from buyers.models import Buyers
@@ -8,6 +9,8 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.parsers import MultiPartParser
+from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ListAllItemsForABuyerSerializer
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
@@ -16,19 +19,29 @@ from .serializers import CreateItemSerializer, ItemDetailSerializer, ItemListSer
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
-class CreateItemAPIView(generics.CreateAPIView):
+class CreateItemAPIView(APIView):
     permission_classes = (IsAuthenticated, )
-    serializer_class = CreateItemSerializer
 
-    # # This decorator ensures the request body contains image upload option on swagger
-    @swagger_auto_schema(request_body=CreateInterestedBuyerSerializer, operation_description='Upload file...',)
-    def perform_create(self, serializer):
-        serializer.save(seller=self.request.user)
+    parser_classes=(MultiPartParser,)
+    @swagger_auto_schema(request_body=CreateItemSerializer,
+        operation_description="Endpoint for sellers to view all items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'")
+    @action(detail=True, methods=['post'])
+    def post(self, request):
+        context = {}
+        serializer = CreateItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(seller=self.request.user)
+            context["message"] = "Item has been created successfully"
+            context["data"] = serializer.data
+            return Response(context, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Lists all the items in the database that hasn't been sold
 class ListAllItemsAPIView(generics.ListAPIView):
     serializer_class = ItemListSerializer
+
     def get_queryset(self):
 
         '''
@@ -44,17 +57,21 @@ class ListAllItemsAPIView(generics.ListAPIView):
 
 
 # Lists all the Items a seller has created
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    description="Endpoint for sellers to view all items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'"
+))
 class LisAllItemsForSellerAPIView(generics.ListAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = ItemListSerializer
+
     def get_queryset(self):
         items = Items.objects.filter(seller=self.request.user).select_related('sold_to')
         return items
 
-
 class ItemDetailAPIView(APIView):
     permission_classes = (IsAuthenticated, )
     # Retrieves a single item
+    @swagger_auto_schema(operation_description="Endpoint for sellers to view a single item out of the items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'", security=[])
     def get(self, request, id):
 
         # Tries to get the item with the given id and logged in user from the db
@@ -68,6 +85,7 @@ class ItemDetailAPIView(APIView):
             return Response({'error': "This item does not exist for this user"}, status=status.HTTP_404_NOT_FOUND)
 
     
+    @swagger_auto_schema(operation_description="Endpoint for sellers to delete a single item out of the items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'")
     def delete(self, request, id):
         try:
             Items.objects.get(id=id, seller=self.request.user).delete()

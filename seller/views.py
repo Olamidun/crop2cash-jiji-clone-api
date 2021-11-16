@@ -20,5 +20,6 @@ def registration(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class LoginWithEmailView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer

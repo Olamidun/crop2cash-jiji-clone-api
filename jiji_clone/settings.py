@@ -25,12 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_+e8zlcc8ul)b4#80(8^hiia$=3ip_tmtyi(1=@z6jo3@dfdn0'
+# SECRET_KEY = 'django-insecure-_+e8zlcc8ul)b4#80(8^hiia$=3ip_tmtyi(1=@z6jo3@dfdn0'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'https://c2c-jiji-clone.herokuapp.com/']
 
 
 # Application definition
@@ -50,7 +52,8 @@ INSTALLED_APPS = [
 
     # Third party libraries
     'rest_framework',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders'
 ]
 
 SWAGGER_SETTINGS = {
@@ -68,8 +71,8 @@ AUTH_USER_MODEL = 'seller.Seller'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware"
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -140,6 +143,8 @@ CACHES = {
 
 # How long until a cache becomes invalid; it has been set to 15 minutes
 CACHE_TTL = 60 * 15
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

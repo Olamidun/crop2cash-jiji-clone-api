@@ -1,4 +1,4 @@
-# crop2cash-jiji-clone-api Project Report
+# crop2cash-jiji-clone-api Project Report [![Build Status](https://app.travis-ci.com/Olamidun/crop2cash-jiji-clone-api.svg?branch=master)](https://app.travis-ci.com/Olamidun/crop2cash-jiji-clone-api)
 
 You can view the documentation [here](https://c2c-jiji-clone.herokuapp.com/swagger/)
 

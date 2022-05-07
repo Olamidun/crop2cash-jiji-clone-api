@@ -31,8 +31,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG_VALUE', False)
-
+# DEBUG = os.getenv('DJANGO_DEBUG_VALUE', False)
+DEBUG = True
 ALLOWED_HOSTS = ['localhost', 'c2c-jiji-clone.herokuapp.com']
 
 
@@ -131,13 +131,13 @@ DATABASES = {
 }
 
 # Cache configuration
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.environ.get('REDIS_URL'),
-        "KEY_PREFIX": "c2c_jiji"
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": os.environ.get('REDIS_URL'),
+#         "KEY_PREFIX": "c2c_jiji"
+#     }
+# }
 
 # How long until a cache becomes invalid; it has been set to 15 minutes
 CACHE_TTL = 60 * 15

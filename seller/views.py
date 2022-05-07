@@ -15,6 +15,7 @@ def registration(request):
     if serializer.is_valid():
         serializer.save()
         data = serializer.data
+        print(type(data))
         data['message'] = 'Your account has been created successfully'
         return Response(data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

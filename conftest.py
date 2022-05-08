@@ -17,4 +17,13 @@ def register_seller():
     
     seller.set_password("vision2022")
     seller.save()
-    return seller
+    return seller.email
+
+@pytest.fixture()
+def seller_token(register_seller, client):
+    response = client.post(
+        "/seller/login", 
+        {"email": register_seller.email, "password": "vision2022"}
+    )
+
+    return {"Authorization": f"Bearer {response.json()['access']}"}

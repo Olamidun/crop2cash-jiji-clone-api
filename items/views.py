@@ -51,7 +51,7 @@ class ListAllItemsAPIView(generics.ListAPIView):
         #     return items
         # else:
         items = Items.objects.filter(has_been_sold=False).select_related('seller').order_by('-date_added')
-        cache.set('items', items, timeout=CACHE_TTL)
+        # cache.set('items', items, timeout=CACHE_TTL)
         return items
 
 

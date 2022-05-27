@@ -1,8 +1,7 @@
 import pytest
 from rest_framework import status
 
-
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 class TestCreateItem:
     def test_successful_item_creation(self, client, seller_token):
         """
@@ -18,11 +17,6 @@ class TestCreateItem:
                 "price": 15000.55,
                 "description": "This is a random item",
                 "image": image
-            }
-            token = seller_token["HTTP_AUTHORIZATION"]
-            headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {token}"
             }
         
             response = client.post("/items/create_item", data=data, **seller_token)

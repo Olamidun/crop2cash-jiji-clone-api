@@ -8,7 +8,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import action, authentication_classes, permission_classes
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
@@ -20,11 +20,11 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 class CreateItemAPIView(APIView):
     permission_classes = (IsAuthenticated, )
 
-    parser_classes=(MultiPartParser,)
+    parser_classes=(MultiPartParser, FormParser)
     @swagger_auto_schema(request_body=CreateItemSerializer,
         operation_description="Endpoint for sellers to view all items they have put up for sale. Requires token authentication in this format: 'Bearer <access_token returned by the login endpoint>'")
     @action(detail=True, methods=['post'])
-    def post(self, request):
+    def post(self, request, format=None):
         context = {}
         serializer = CreateItemSerializer(data=request.data)
         if serializer.is_valid():

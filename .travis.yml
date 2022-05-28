@@ -3,10 +3,6 @@ python:
   - "3.9"
 env:
   - SECRET_KEY='sasaakswiomdskcs'
-  - AMAZON_SECRET_KEY=$AMAZON_SECRET_KEY
-  - AMAZON_ACCESS_ID=$AMAZON_ACCESS_ID
-  - AMAZON_BUCKET_NAME=$AMAZON_BUCKET_NAME
-  - AWS_S3_REGION_NAME=$AWS_S3_REGION_NAME
 install:
   - pip install -r requirements.txt
 script: 
